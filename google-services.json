@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771837297733",
+    "project_id": "weatherfirebasechat",
+    "storage_bucket": "weatherfirebasechat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771837297733:android:0fe21ea3b539a8ef184f2c",
+        "android_client_info": {
+          "package_name": "com.scoroian.firebasechat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHZBzIT3WvhvU7irkL0mOXwdc61Os_4ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
