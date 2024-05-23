@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d("Firebase", "Failed to write data")
             }
+        myRef.setValue("aaaaa!")
+        myRef.setValue("bbbbb")
 
         // Leer datos desde Firebase Database
         myRef.addValueEventListener(object : ValueEventListener {

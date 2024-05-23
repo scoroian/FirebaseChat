@@ -13,7 +13,8 @@ import com.scoroian.firebasechat.databinding.ActivitySplashBinding
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    private val view by lazy{ActivitySplashBinding.inflate(layoutInflater)}
+    private val view by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(view.root)
@@ -24,5 +25,9 @@ class SplashActivity : AppCompatActivity() {
             .load(R.drawable.cat_spinning)
             .into(imageView)
 
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this, NicknameActivity::class.java))
+            finish()
+        }, 2000) // Delay de 2 segundos
     }
 }
