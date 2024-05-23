@@ -2,6 +2,7 @@ package com.scoroian.firebasechat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.scoroian.firebasechat.databinding.ItemCityBinding
 

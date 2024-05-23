@@ -36,6 +36,7 @@ class ChatActivity : AppCompatActivity() {
             if (message.isNotEmpty()) {
                 val chatMessage = ChatMessage(auth.currentUser?.displayName ?: "Anonymous", message, System.currentTimeMillis())
                 chatRef.push().setValue(chatMessage)
+                view.messageEditText.text.clear()  // Limpiar el campo de texto después de enviar el mensaje
             }
         }
 
@@ -45,6 +46,7 @@ class ChatActivity : AppCompatActivity() {
                 message?.let {
                     messageList.add(it)
                     chatAdapter.notifyDataSetChanged()
+                    view.chatRecyclerView.scrollToPosition(messageList.size - 1)  // Desplazarse al último mensaje
                 }
             }
 
