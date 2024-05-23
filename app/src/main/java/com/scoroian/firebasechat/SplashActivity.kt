@@ -2,8 +2,8 @@ package com.scoroian.firebasechat
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
             if (isFirstTime) {
                 startActivity(Intent(this, NicknameActivity::class.java))
             } else {
-                startActivity(Intent(this, ChatActivity::class.java))
+                startActivity(Intent(this, CitySelectionActivity::class.java))
             }
             finish()
         }, 2000) // Delay de 2 segundos

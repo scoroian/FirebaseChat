@@ -19,9 +19,11 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(view.root)
 
+        val selectedCity = intent.getStringExtra("selectedCity") ?: "Unknown City"
+
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance("https://weatherfirebasechat-default-rtdb.firebaseio.com/")
-        chatRef = database.getReference("chats").child("cityId")
+        chatRef = database.getReference("chats").child(selectedCity)
 
         messageList = mutableListOf()
         chatAdapter = ChatAdapter(messageList)

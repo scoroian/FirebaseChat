@@ -34,7 +34,7 @@ class NicknameActivity : AppCompatActivity() {
                     putBoolean("isFirstTime", false)
                     apply()
                 }
-                startActivity(Intent(this, ChatActivity::class.java))
+                startActivity(Intent(this, CitySelectionActivity::class.java))
             }
         }
     }
