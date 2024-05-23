@@ -12,7 +12,7 @@
         android:id="@+id/imageView"
         android:layout_width="255dp"
         android:layout_height="228dp"
-        android:contentDescription="@string/gif"
+        android:contentDescription="Gif"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

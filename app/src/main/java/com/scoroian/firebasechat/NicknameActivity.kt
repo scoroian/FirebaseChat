@@ -31,6 +31,7 @@ class NicknameActivity : AppCompatActivity() {
                 val sharedPref = getSharedPreferences("prefs", MODE_PRIVATE)
                 with(sharedPref.edit()) {
                     putString("nickname", nickname)
+                    putBoolean("isFirstTime", false)
                     apply()
                 }
                 startActivity(Intent(this, ChatActivity::class.java))

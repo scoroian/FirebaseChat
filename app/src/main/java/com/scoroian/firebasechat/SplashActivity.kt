@@ -12,12 +12,14 @@ import com.scoroian.firebasechat.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-
     private val view by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(view.root)
+
+        val sharedPref = getSharedPreferences("prefs", MODE_PRIVATE)
+        val isFirstTime = sharedPref.getBoolean("isFirstTime", true)
 
         val imageView: ImageView = findViewById(R.id.imageView)
         Glide.with(this)
@@ -26,7 +28,11 @@ class SplashActivity : AppCompatActivity() {
             .into(imageView)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, NicknameActivity::class.java))
+            if (isFirstTime) {
+                startActivity(Intent(this, NicknameActivity::class.java))
+            } else {
+                startActivity(Intent(this, ChatActivity::class.java))
+            }
             finish()
         }, 2000) // Delay de 2 segundos
     }
