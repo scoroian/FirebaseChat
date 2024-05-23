@@ -8,6 +8,10 @@ android {
     namespace = "com.scoroian.firebasechat"
     compileSdk = 34
 
+    viewBinding{
+        enable = true
+    }
+
     defaultConfig {
         applicationId = "com.scoroian.firebasechat"
         minSdk = 24
