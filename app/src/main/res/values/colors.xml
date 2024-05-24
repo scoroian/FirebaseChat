@@ -2,9 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="SplashScreenColor">#E6DDDB</color>
+    <color name="SplashScreenColor">#746D75</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#757575</color>
     <color name="sentMessageBackground">#DCF8C6</color>
     <color name="receivedMessageBackground">#FFFFFF</color>
+    <color name="colorPrimary">#2196F3</color>
 </resources>

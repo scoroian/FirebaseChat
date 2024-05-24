@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="255dp"
-        android:layout_height="228dp"
+        android:layout_width="414dp"
+        android:layout_height="353dp"
         android:contentDescription="Gif"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"

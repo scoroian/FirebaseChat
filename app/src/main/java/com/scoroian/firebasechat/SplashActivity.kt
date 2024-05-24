@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         val imageView: ImageView = findViewById(R.id.imageView)
         Glide.with(this)
             .asGif()
-            .load(R.drawable.cat_spinning)
+            .load(R.drawable.family_guy_its_raining_sideways)
             .into(imageView)
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -34,6 +34,6 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this, CitySelectionActivity::class.java))
             }
             finish()
-        }, 2000) // Delay de 2 segundos
+        }, 3000) // Delay de 2 segundos
     }
 }
