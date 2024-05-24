@@ -1,7 +1,6 @@
 package com.scoroian.firebasechat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.scoroian.firebasechat.databinding.ActivityCityCommentsBinding
-import kotlin.math.log
 
 class CityCommentsActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase

@@ -5,8 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.scoroian.firebasechat.databinding.ItemCommentBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-class CommentAdapter(private val comments: List<CityComment>, private val currentUser: String, private val onLongClick: (View, Int) -> Unit) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+class CommentAdapter(
+    private val comments: List<CityComment>,
+    private val currentUser: String,
+    private val onLongClick: (View, Int) -> Unit
+) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -17,6 +23,10 @@ class CommentAdapter(private val comments: List<CityComment>, private val curren
         val comment = comments[position]
         holder.binding.userNameTextView.text = comment.user
         holder.binding.commentTextView.text = comment.comment
+
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val formattedDate = sdf.format(Date(comment.timestamp ?: 0))
+        holder.binding.timestampTextView.text = formattedDate
 
         if (comment.user == currentUser) {
             holder.binding.root.setOnLongClickListener {
