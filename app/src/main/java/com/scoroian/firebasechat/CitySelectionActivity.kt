@@ -3,6 +3,11 @@ package com.scoroian.firebasechat
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scoroian.firebasechat.databinding.ActivityCitySelectionBinding
@@ -40,5 +45,29 @@ class CitySelectionActivity : AppCompatActivity() {
 
         view.cityRecyclerView.layoutManager = LinearLayoutManager(this)
         view.cityRecyclerView.adapter = cityAdapter
+
+        // Setup the three-dot menu
+        val menuIcon: ImageView = view.root.findViewById(R.id.menuIcon)
+        menuIcon.setOnClickListener { showPopupMenu(it) }
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        val inflater: MenuInflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.city_selection_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_settings -> {
+                    // Handle Settings click
+                    true
+                }
+                R.id.menu_about -> {
+                    // Handle About click
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 }
