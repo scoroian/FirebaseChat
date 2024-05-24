@@ -5,4 +5,6 @@
     <color name="SplashScreenColor">#E6DDDB</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#757575</color>
+    <color name="sentMessageBackground">#DCF8C6</color>
+    <color name="receivedMessageBackground">#FFFFFF</color>
 </resources>
