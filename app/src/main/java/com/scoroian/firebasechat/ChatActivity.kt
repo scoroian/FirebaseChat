@@ -34,8 +34,9 @@ class ChatActivity : AppCompatActivity() {
         view.sendButton.setOnClickListener {
             val message = view.messageEditText.text.toString()
             if (message.isNotEmpty()) {
-                val chatMessage = ChatMessage(auth.currentUser?.displayName ?: "Anonymous", message, System.currentTimeMillis())
-                chatRef.push().setValue(chatMessage)
+                val messageId = chatRef.push().key ?: ""
+                val chatMessage = ChatMessage(messageId, auth.currentUser?.displayName ?: "Anonymous", message, System.currentTimeMillis(), selectedCity)
+                chatRef.child(messageId).setValue(chatMessage)
                 view.messageEditText.text.clear()  // Limpiar el campo de texto después de enviar el mensaje
             }
         }

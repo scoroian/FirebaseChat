@@ -50,6 +50,9 @@ class NicknameActivity : AppCompatActivity() {
                     }
                 }
             }
+        } else {
+            startActivity(Intent(this, CitySelectionActivity::class.java))
+            finish()
         }
         /*view.enterButton.setOnClickListener {
             val nickname = view.nicknameEditText.text.toString()

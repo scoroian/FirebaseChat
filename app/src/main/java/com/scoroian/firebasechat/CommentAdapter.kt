@@ -1,11 +1,12 @@
 package com.scoroian.firebasechat
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.scoroian.firebasechat.databinding.ItemCommentBinding
 
-class CommentAdapter(private val comments: List<CityComment>) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+class CommentAdapter(private val comments: List<CityComment>, private val currentUser: String, private val onLongClick: (View, Int) -> Unit) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,6 +17,15 @@ class CommentAdapter(private val comments: List<CityComment>) : RecyclerView.Ada
         val comment = comments[position]
         holder.binding.userNameTextView.text = comment.user
         holder.binding.commentTextView.text = comment.comment
+
+        if (comment.user == currentUser) {
+            holder.binding.root.setOnLongClickListener {
+                onLongClick(it, position)
+                true
+            }
+        } else {
+            holder.binding.root.setOnLongClickListener(null)
+        }
     }
 
     override fun getItemCount(): Int = comments.size
