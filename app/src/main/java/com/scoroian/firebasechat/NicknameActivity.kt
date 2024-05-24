@@ -3,8 +3,10 @@ package com.scoroian.firebasechat
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.scoroian.firebasechat.databinding.ActivityNicknameBinding
 
@@ -18,55 +20,69 @@ class NicknameActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
+
         if (user == null) {
             view.enterButton.setOnClickListener {
+                val email = view.emailEditText.text.toString()
+                val password = view.passwordEditText.text.toString()
                 val nickname = view.nicknameEditText.text.toString()
-                if (nickname.isNotEmpty()) {
-                    // Se crea un usuario anonimo en Firebase Authentication.
-                    Log.d("NicknameActivity", "AQUI LLEGO 111.")
-                    auth.signInAnonymously().addOnCompleteListener {
-                        Log.d("NicknameActivity", "AQUI LLEGO 222.")
-                        Log.d("NicknameActivity", it.toString())
-                        if (it.isSuccessful) { //Si se crea en FA
-                            Log.d("NicknameActivity", "AQUI LLEGO 333.")
-                            val currentUser = auth.currentUser //Obtengo el nombre que en FA es vacio/null
-                            //Creoo un perfil en local.
-                            val profileUpdates = UserProfileChangeRequest.Builder()
-                                .setDisplayName(nickname)
-                                .build()
-                            //Updateo el perfil en FA con el nuevo perfil.
-                            currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { updateProfileTask ->
-                                if (updateProfileTask.isSuccessful) {
-                                    Log.d("NicknameActivity", "User profile updated.")
-                                    startActivity(Intent(this, CitySelectionActivity::class.java))
-                                    finish()
+
+                if (email.isNotEmpty() && password.isNotEmpty() && nickname.isNotEmpty()) {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { createUserTask ->
+                            if (createUserTask.isSuccessful) {
+                                Log.d("NicknameActivity", "User created successfully.")
+                                val currentUser = auth.currentUser
+                                val profileUpdates = UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nickname)
+                                    .build()
+                                currentUser?.updateProfile(profileUpdates)
+                                    ?.addOnCompleteListener { updateProfileTask ->
+                                        if (updateProfileTask.isSuccessful) {
+                                            Log.d("NicknameActivity", "User profile updated.")
+                                            startActivity(Intent(this, CitySelectionActivity::class.java))
+                                            finish()
+                                        } else {
+                                            Log.e("NicknameActivity", "Failed to update profile: ${updateProfileTask.exception}")
+                                        }
+                                    }
+                            } else {
+                                if (createUserTask.exception is FirebaseAuthUserCollisionException) {
+                                    auth.signInWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener { signInTask ->
+                                            if (signInTask.isSuccessful) {
+                                                Log.d("NicknameActivity", "User signed in successfully.")
+                                                val currentUser = auth.currentUser
+                                                val profileUpdates = UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(nickname)
+                                                    .build()
+                                                currentUser?.updateProfile(profileUpdates)
+                                                    ?.addOnCompleteListener { updateProfileTask ->
+                                                        if (updateProfileTask.isSuccessful) {
+                                                            Log.d("NicknameActivity", "User profile updated.")
+                                                            startActivity(Intent(this, CitySelectionActivity::class.java))
+                                                            finish()
+                                                        } else {
+                                                            Log.e("NicknameActivity", "Failed to update profile: ${updateProfileTask.exception}")
+                                                        }
+                                                    }
+                                            } else {
+                                                Toast.makeText(this, "Authentication failed: ${signInTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
                                 } else {
-                                    Log.e("NicknameActivity", "Failed to update profile: ${updateProfileTask.exception}")
+                                    Log.e("NicknameActivity", "User creation failed: ${createUserTask.exception}")
+                                    Toast.makeText(this, "User creation failed: ${createUserTask.exception?.message}", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                        } else {
-                            Log.e("NicknameActivity", "Anonymous sign-in failed: ${it.exception}")
                         }
-                    }
+                } else {
+                    Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
             startActivity(Intent(this, CitySelectionActivity::class.java))
             finish()
         }
-        /*view.enterButton.setOnClickListener {
-            val nickname = view.nicknameEditText.text.toString()
-            if (nickname.isNotEmpty()) {
-                // Guardar el nickname en SharedPreferences
-                val sharedPref = getSharedPreferences("prefs", MODE_PRIVATE)
-                with(sharedPref.edit()) {
-                    putString("nickname", nickname)
-                    putBoolean("isFirstTime", false)
-                    apply()
-                }
-                startActivity(Intent(this, CitySelectionActivity::class.java))
-            }
-        }*/
-
     }
 }
