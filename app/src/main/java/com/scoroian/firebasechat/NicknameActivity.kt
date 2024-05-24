@@ -18,55 +18,41 @@ class NicknameActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
+
         if (user == null) {
             view.enterButton.setOnClickListener {
+                val email = view.emailEditText.text.toString()
+                val password = view.passwordEditText.text.toString()
                 val nickname = view.nicknameEditText.text.toString()
-                if (nickname.isNotEmpty()) {
-                    // Se crea un usuario anonimo en Firebase Authentication.
-                    Log.d("NicknameActivity", "AQUI LLEGO 111.")
-                    auth.signInAnonymously().addOnCompleteListener {
-                        Log.d("NicknameActivity", "AQUI LLEGO 222.")
-                        Log.d("NicknameActivity", it.toString())
-                        if (it.isSuccessful) { //Si se crea en FA
-                            Log.d("NicknameActivity", "AQUI LLEGO 333.")
-                            val currentUser = auth.currentUser //Obtengo el nombre que en FA es vacio/null
-                            //Creoo un perfil en local.
-                            val profileUpdates = UserProfileChangeRequest.Builder()
-                                .setDisplayName(nickname)
-                                .build()
-                            //Updateo el perfil en FA con el nuevo perfil.
-                            currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { updateProfileTask ->
-                                if (updateProfileTask.isSuccessful) {
-                                    Log.d("NicknameActivity", "User profile updated.")
-                                    startActivity(Intent(this, CitySelectionActivity::class.java))
-                                    finish()
-                                } else {
-                                    Log.e("NicknameActivity", "Failed to update profile: ${updateProfileTask.exception}")
-                                }
+
+                if (email.isNotEmpty() && password.isNotEmpty() && nickname.isNotEmpty()) {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { createUserTask ->
+                            if (createUserTask.isSuccessful) {
+                                Log.d("NicknameActivity", "User created successfully.")
+                                val currentUser = auth.currentUser
+                                val profileUpdates = UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nickname)
+                                    .build()
+                                currentUser?.updateProfile(profileUpdates)
+                                    ?.addOnCompleteListener { updateProfileTask ->
+                                        if (updateProfileTask.isSuccessful) {
+                                            Log.d("NicknameActivity", "User profile updated.")
+                                            startActivity(Intent(this, CitySelectionActivity::class.java))
+                                            finish()
+                                        } else {
+                                            Log.e("NicknameActivity", "Failed to update profile: ${updateProfileTask.exception}")
+                                        }
+                                    }
+                            } else {
+                                Log.e("NicknameActivity", "User creation failed: ${createUserTask.exception}")
                             }
-                        } else {
-                            Log.e("NicknameActivity", "Anonymous sign-in failed: ${it.exception}")
                         }
-                    }
                 }
             }
         } else {
             startActivity(Intent(this, CitySelectionActivity::class.java))
             finish()
         }
-        /*view.enterButton.setOnClickListener {
-            val nickname = view.nicknameEditText.text.toString()
-            if (nickname.isNotEmpty()) {
-                // Guardar el nickname en SharedPreferences
-                val sharedPref = getSharedPreferences("prefs", MODE_PRIVATE)
-                with(sharedPref.edit()) {
-                    putString("nickname", nickname)
-                    putBoolean("isFirstTime", false)
-                    apply()
-                }
-                startActivity(Intent(this, CitySelectionActivity::class.java))
-            }
-        }*/
-
     }
 }
